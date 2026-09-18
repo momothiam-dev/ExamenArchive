@@ -90,4 +90,12 @@ class StorageManager {
     static getGeminiKey() {
         return localStorage.getItem('examarchive_gemini_key') || '';
     }
+
+    static saveOcrKey(apiKey) {
+        localStorage.setItem('examarchive_ocr_key', apiKey);
+    }
+
+    static getOcrKey() {
+        return localStorage.getItem('examarchive_ocr_key') || '';
+    }
 }

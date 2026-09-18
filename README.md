@@ -24,6 +24,12 @@ python -m http.server 8000
 ```
 Puis rendez-vous sur `http://localhost:8000`.
 
+## Configuration des clés API
+
+Les clés Gemini et OCR.space ne sont pas incluses dans le dépôt. Pour les configurer, ouvrez l'application avec le hash administrateur, par exemple `index.html#admin-votreMotDePasse`, puis ouvrez les paramètres avec le bouton ⚙️.
+
+Les clés saisies sont conservées uniquement dans le `localStorage` du navigateur et utilisées directement depuis celui-ci. N'utilisez pas une clé avec des permissions ou un budget illimités sur une application statique publique. En cas d'exposition, révoquez immédiatement la clé depuis le fournisseur concerné.
+
 ## Architecture
 - `index.html` : Structure de l'application
 - `css/style.css` : Styles et design responsive

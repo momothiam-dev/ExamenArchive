@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedKey && document.getElementById('settingsGeminiKey')) {
             document.getElementById('settingsGeminiKey').value = savedKey;
         }
+        const savedOcrKey = StorageManager.getOcrKey();
+        if (savedOcrKey && document.getElementById('settingsOcrKey')) {
+            document.getElementById('settingsOcrKey').value = savedOcrKey;
+        }
     }
 
     // DOM Elements
@@ -168,6 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.getElementById('settingsGeminiKey')) {
             document.getElementById('settingsGeminiKey').value = savedKey;
         }
+        const savedOcrKey = StorageManager.getOcrKey();
+        if (document.getElementById('settingsOcrKey')) {
+            document.getElementById('settingsOcrKey').value = savedOcrKey;
+        }
         const hash = window.location.hash;
         const password = hash.replace('#admin-', '');
         if (document.getElementById('settingsAdminPassword')) {
@@ -181,13 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveSettings() {
         const key = document.getElementById('settingsGeminiKey')?.value.trim();
-        if (key) {
-            StorageManager.saveGeminiKey(key);
-            showNotification('Clé API Gemini enregistrée avec succès !', 'success');
-        } else {
+        const ocrKey = document.getElementById('settingsOcrKey')?.value.trim();
+        if (!key || !ocrKey) {
             showNotification('Veuillez saisir une clé API valide.', 'error');
             return;
         }
+        StorageManager.saveGeminiKey(key);
+        StorageManager.saveOcrKey(ocrKey);
+        showNotification('Clés API enregistrées localement avec succès !', 'success');
         closeModals();
     }
 
@@ -616,9 +625,14 @@ Formate ta réponse en Markdown avec des listes à puces claires.`;
                 formData.append('scale', 'true');
                 formData.append('OCREngine', '2');
 
-                fetch('https://api.ocr.space/parse/image', {
+                const ocrKey = StorageManager.getOcrKey();
+                if (!ocrKey) {
+                    textarea.value = 'Clé OCR non configurée. Ouvrez les paramètres administrateur.';
+                }
+                if (ocrKey) {
+                    fetch('https://api.ocr.space/parse/image', {
                     method: 'POST',
-                    headers: { 'apikey': 'K86390420688957' },
+                    headers: { 'apikey': ocrKey },
                     body: formData
                 })
                     .then(response => response.json())
@@ -701,6 +715,7 @@ Formate ta réponse en Markdown avec des listes à puces claires.`;
                         console.error("OCR API Error:", err);
                         textarea.placeholder = "Erreur de connexion à l'API OCR. Vérifiez votre connexion.";
                     });
+                }
 
                 // --- Gemini Vision (analyse des figures) ---
                 analyzeImageWithGemini(item.dataUrl).then(analyseText => {
