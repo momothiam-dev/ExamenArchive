@@ -223,20 +223,7 @@
                 <button class="close-btn">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>🔑 Clé API Gemini <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:0.8rem; margin-left: 0.5rem;">(Obtenir une clé gratuite)</a></label>
-                    <input type="password" id="settingsGeminiKey" placeholder="AIzaSy...">
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">
-                        Nécessaire pour l'analyse des figures et la génération de corrections. Stockée localement dans votre navigateur.
-                    </p>
-                </div>
-                <div class="form-group">
-                    <label>🔑 Clé API OCR.space <a href="https://ocr.space/ocrapi" target="_blank" style="font-size:0.8rem; margin-left: 0.5rem;">(Obtenir une clé)</a></label>
-                    <input type="password" id="settingsOcrKey" placeholder="K...">
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">
-                        Nécessaire pour extraire le texte des images. Stockée localement dans votre navigateur.
-                    </p>
-                </div>
+                <p>Les services IA sont configurés côté serveur. Les clés API ne sont jamais affichées ni enregistrées dans ce navigateur.</p>
                 <div class="form-group">
                     <label>🔒 Mot de passe admin (hash URL actuel)</label>
                     <input type="text" id="settingsAdminPassword" placeholder="ex: MonMotDePasse" readonly style="background: rgba(0,0,0,0.05); cursor: default;">
@@ -247,7 +234,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnSettingsCancel" class="btn btn-secondary">Annuler</button>
-                <button type="button" id="btnSettingsSave" class="btn">💾 Enregistrer</button>
+                <button type="button" id="btnSettingsSave" class="btn">Fermer</button>
             </div>
         </div>
     </div>

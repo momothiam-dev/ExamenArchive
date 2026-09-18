@@ -21,15 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (settingsPassword) settingsPassword.value = password;
         if (settingsUrl) settingsUrl.textContent = window.location.href;
 
-        // Charger la clé Gemini dans le champ paramètres
-        const savedKey = StorageManager.getGeminiKey();
-        if (savedKey && document.getElementById('settingsGeminiKey')) {
-            document.getElementById('settingsGeminiKey').value = savedKey;
-        }
-        const savedOcrKey = StorageManager.getOcrKey();
-        if (savedOcrKey && document.getElementById('settingsOcrKey')) {
-            document.getElementById('settingsOcrKey').value = savedOcrKey;
-        }
     }
 
     // DOM Elements
@@ -168,14 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // SETTINGS MODAL
     // =============================================
     function openSettingsModal() {
-        const savedKey = StorageManager.getGeminiKey();
-        if (document.getElementById('settingsGeminiKey')) {
-            document.getElementById('settingsGeminiKey').value = savedKey;
-        }
-        const savedOcrKey = StorageManager.getOcrKey();
-        if (document.getElementById('settingsOcrKey')) {
-            document.getElementById('settingsOcrKey').value = savedOcrKey;
-        }
         const hash = window.location.hash;
         const password = hash.replace('#admin-', '');
         if (document.getElementById('settingsAdminPassword')) {
@@ -188,15 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function saveSettings() {
-        const key = document.getElementById('settingsGeminiKey')?.value.trim();
-        const ocrKey = document.getElementById('settingsOcrKey')?.value.trim();
-        if (!key || !ocrKey) {
-            showNotification('Veuillez saisir une clé API valide.', 'error');
-            return;
-        }
-        StorageManager.saveGeminiKey(key);
-        StorageManager.saveOcrKey(ocrKey);
-        showNotification('Clés API enregistrées localement avec succès !', 'success');
         closeModals();
     }
 
@@ -381,17 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const subject = allSubjects.find(s => s.id === id);
         if (!subject) return;
 
-        const geminiKey = StorageManager.getGeminiKey();
-        if (!geminiKey) {
-            if (isAdmin) {
-                showNotification('⚙️ Veuillez d\'abord configurer votre clé API Gemini dans les Paramètres.', 'warning');
-                openSettingsModal();
-            } else {
-                showNotification('Fonctionnalité non disponible. Clé API non configurée.', 'error');
-            }
-            return;
-        }
-
         const correctionContent = document.getElementById('correctionContent');
         const correctionLoading = document.getElementById('correctionLoading');
         const btnGenerate = document.getElementById('btnGenerateCorrection');
@@ -419,25 +382,15 @@ Formate ta réponse en Markdown avec des titres clairs (## Question 1, ## Questi
 Si des calculs ou formules sont nécessaires, explique chaque étape.`;
 
         try {
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${geminiKey}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { maxOutputTokens: 4096 }
-                    })
-                }
-            );
-
-            if (!response.ok) {
-                const err = await response.json();
-                throw new Error(err.error?.message || `Erreur HTTP ${response.status}`);
-            }
+            const response = await fetch('/.netlify/functions/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt, maxOutputTokens: 4096 })
+            });
 
             const data = await response.json();
-            const correction = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!response.ok) throw new Error(data.error || `Erreur HTTP ${response.status}`);
+            const correction = data.text;
 
             if (!correction) throw new Error('Réponse vide de l\'API Gemini');
 
@@ -460,9 +413,6 @@ Si des calculs ou formules sont nécessaires, explique chaque étape.`;
     // ANALYSE IA DES FIGURES (Gemini Vision)
     // =============================================
     async function analyzeImageWithGemini(dataUrl) {
-        const geminiKey = StorageManager.getGeminiKey();
-        if (!geminiKey) return null;
-
         // Extraire le base64 pur (sans le préfixe data:image/...;base64,)
         const base64Data = dataUrl.split(',')[1];
         const mimeType = dataUrl.split(';')[0].split(':')[1];
@@ -479,27 +429,19 @@ Si tu ne vois aucun de ces éléments visuels (juste du texte), réponds : "Aucu
 Formate ta réponse en Markdown avec des listes à puces claires.`;
 
         try {
-            const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${geminiKey}`,
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [
-                                { text: prompt },
-                                { inline_data: { mime_type: mimeType, data: base64Data } }
-                            ]
-                        }],
-                        generationConfig: { maxOutputTokens: 1024 }
-                    })
-                }
-            );
-
-            if (!response.ok) throw new Error(`Erreur Gemini Vision HTTP ${response.status}`);
+            const response = await fetch('/.netlify/functions/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt,
+                    image: { mimeType, data: base64Data },
+                    maxOutputTokens: 1024
+                })
+            });
 
             const data = await response.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+            if (!response.ok) throw new Error(data.error || `Erreur Gemini Vision HTTP ${response.status}`);
+            return data.text || null;
 
         } catch (err) {
             console.warn('Gemini Vision Error (non bloquant):', err.message);
@@ -618,22 +560,10 @@ Formate ta réponse en Markdown avec des listes à puces claires.`;
                 const textarea = document.getElementById(`uf_texte_${index}`);
 
                 // --- OCR.space ---
-                const formData = new FormData();
-                formData.append('base64Image', item.dataUrl);
-                formData.append('language', 'fre');
-                formData.append('isOverlayRequired', 'false');
-                formData.append('scale', 'true');
-                formData.append('OCREngine', '2');
-
-                const ocrKey = StorageManager.getOcrKey();
-                if (!ocrKey) {
-                    textarea.value = 'Clé OCR non configurée. Ouvrez les paramètres administrateur.';
-                }
-                if (ocrKey) {
-                    fetch('https://api.ocr.space/parse/image', {
+                fetch('/.netlify/functions/ocr', {
                     method: 'POST',
-                    headers: { 'apikey': ocrKey },
-                    body: formData
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dataUrl: item.dataUrl })
                 })
                     .then(response => response.json())
                     .then(result => {
@@ -715,7 +645,6 @@ Formate ta réponse en Markdown avec des listes à puces claires.`;
                         console.error("OCR API Error:", err);
                         textarea.placeholder = "Erreur de connexion à l'API OCR. Vérifiez votre connexion.";
                     });
-                }
 
                 // --- Gemini Vision (analyse des figures) ---
                 analyzeImageWithGemini(item.dataUrl).then(analyseText => {

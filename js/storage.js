@@ -4,6 +4,8 @@ class StorageManager {
     static init() {
         // Force reset to new data.js (removes old mock subjects)
         localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_SUBJECTS));
+        localStorage.removeItem('examarchive_gemini_key');
+        localStorage.removeItem('examarchive_ocr_key');
     }
 
     static getSubjects() {
@@ -82,20 +84,4 @@ class StorageManager {
         return localStorage.getItem(`examarchive_correction_${id}`) || null;
     }
 
-    // --- Clé API Gemini ---
-    static saveGeminiKey(apiKey) {
-        localStorage.setItem('examarchive_gemini_key', apiKey);
-    }
-
-    static getGeminiKey() {
-        return localStorage.getItem('examarchive_gemini_key') || '';
-    }
-
-    static saveOcrKey(apiKey) {
-        localStorage.setItem('examarchive_ocr_key', apiKey);
-    }
-
-    static getOcrKey() {
-        return localStorage.getItem('examarchive_ocr_key') || '';
-    }
 }

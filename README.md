@@ -24,11 +24,18 @@ python -m http.server 8000
 ```
 Puis rendez-vous sur `http://localhost:8000`.
 
-## Configuration des clés API
+## Configuration backend et clés API
 
-Les clés Gemini et OCR.space ne sont pas incluses dans le dépôt. Pour les configurer, ouvrez l'application avec le hash administrateur, par exemple `index.html#admin-votreMotDePasse`, puis ouvrez les paramètres avec le bouton ⚙️.
+Les appels Gemini et OCR passent par des fonctions Netlify. Les clés ne sont pas incluses dans le dépôt, ne sont pas affichées dans le navigateur et ne sont jamais envoyées au frontend.
 
-Les clés saisies sont conservées uniquement dans le `localStorage` du navigateur et utilisées directement depuis celui-ci. N'utilisez pas une clé avec des permissions ou un budget illimités sur une application statique publique. En cas d'exposition, révoquez immédiatement la clé depuis le fournisseur concerné.
+Dans Netlify, ouvrez `Site configuration > Environment variables` et ajoutez :
+
+- `GEMINI_API_KEY` : clé Google AI Studio autorisée pour Gemini
+- `OCR_API_KEY` : clé OCR.space
+
+Après l'ajout ou la modification d'une variable, relancez un déploiement. Les fonctions utilisées sont `/.netlify/functions/gemini` et `/.netlify/functions/ocr`. Le fichier `netlify.toml` configure automatiquement leur dossier.
+
+Pour le développement local des fonctions, utilisez Netlify CLI avec `netlify dev` plutôt que d'ouvrir directement `index.html`. Limitez les quotas des fournisseurs et révoquez toute clé déjà exposée.
 
 ## Architecture
 - `index.html` : Structure de l'application
@@ -38,4 +45,6 @@ Les clés saisies sont conservées uniquement dans le `localStorage` du navigate
 - `js/textes.js` : Textes OCR des sujets
 - `js/search.js` : Logique de recherche et de filtrage
 - `js/storage.js` : Gestion du localStorage
+- `netlify/functions/` : Proxy backend sécurisé pour Gemini et OCR
+- `netlify.toml` : Configuration du déploiement Netlify
 - `sujet/` : Dossier contenant les images originales (facultatif pour la V1)
