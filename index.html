@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamArchive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">EXAMARCHIVE</a>
+        <nav>
+            <a href="#" id="navArchives">Archives</a>
+            <!-- Badge admin, caché par défaut -->
+            <span id="adminBadge" class="admin-badge" style="display:none;">🔑 Mode Admin</span>
+            <!-- Bouton Paramètres, visible seulement en mode admin -->
+            <button id="btnSettings" class="btn btn-secondary admin-only" style="display:none;" title="Paramètres Gemini API">⚙️</button>
+            <!-- Bouton Ajouter, visible seulement en mode admin -->
+            <button id="btnAddSubject" class="btn admin-only" style="display:none;">+ Ajouter une archive</button>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>ARCHIVEZ. RECHERCHEZ. RÉVISEZ.</h1>
+        <p>Tous vos anciens sujets d'examen, organisés en un seul endroit.</p>
+    </div>
+
+    <main>
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalSujets">0</div>
+                <div class="stat-label">Sujets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalMatieres">0</div>
+                <div class="stat-label">Matières</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalAnnees">0</div>
+                <div class="stat-label">Années</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalSemestres">0</div>
+                <div class="stat-label">Semestres</div>
+            </div>
+        </section>
+
+        <section class="controls">
+            <input type="text" id="searchInput" class="search-bar" placeholder="🔎 Rechercher un sujet (titre, matière, contenu)...">
+            
+            <div class="filters">
+                <select id="filiereFilter">
+                    <option value="">Filière</option>
+                </select>
+                <select id="anneeFilter">
+                    <option value="">Année</option>
+                </select>
+                <select id="semestreFilter">
+                    <option value="">Semestre</option>
+                </select>
+                <select id="matiereFilter">
+                    <option value="">Matière</option>
+                </select>
+                <select id="sortSelect" style="margin-left: auto;">
+                    <option value="default">Tri par défaut</option>
+                    <option value="annee-desc">Année décroissante</option>
+                    <option value="matiere-asc">Matière A-Z</option>
+                    <option value="matiere-desc">Matière Z-A</option>
+                    <option value="date-desc">Ajout récent</option>
+                    <option value="date-asc">Ajout ancien</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="subjectsGrid" class="subjects-grid">
+            <!-- Subject cards will be rendered here -->
+        </section>
+    </main>
+
+    <!-- View Subject Modal -->
+    <div id="viewModal" class="modal-overlay">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h2 id="viewTitle">Titre du sujet</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="view-meta">
+                    <div><strong>Code :</strong> <span id="viewCode"></span></div>
+                    <div><strong>Matière :</strong> <span id="viewMatiere"></span></div>
+                    <div><strong>Filière :</strong> <span id="viewFiliere"></span></div>
+                    <div><strong>Année :</strong> <span id="viewAnnee"></span></div>
+                    <div><strong>Semestre :</strong> <span id="viewSemestre"></span></div>
+                </div>
+
+                <!-- Image du sujet -->
+                <img id="viewImage" src="" alt="Sujet" style="max-width: 100%; height: auto; display: none; margin-top: 1rem; border: 1px solid #ddd; border-radius: 4px;">
+
+                <!-- Texte extrait -->
+                <div id="viewTexte" class="view-text"></div>
+
+                <!-- Section Analyse IA des figures/cartes -->
+                <div id="viewAnalyseSection" style="display:none; margin-top: 1.5rem;">
+                    <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.5rem;">🗺️ Schémas & Figures analysés par IA</h3>
+                    <div id="viewAnalyse" class="view-text" style="background: rgba(99,102,241,0.07); border-left: 3px solid var(--primary);"></div>
+                </div>
+
+                <!-- Section Correction IA -->
+                <div id="correctionSection" style="margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <h3 style="font-size: 1rem; color: var(--text-secondary); margin: 0;">✨ Correction type par IA</h3>
+                        <button id="btnGenerateCorrection" class="btn" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;">Générer la correction</button>
+                        <button id="btnRegenerateCorrection" class="btn btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 0.85rem; display:none;">🔄 Régénérer</button>
+                    </div>
+                    <div id="correctionLoading" style="display:none; margin-top: 0.5rem; color: var(--text-secondary); font-style: italic;">⏳ Génération de la correction en cours...</div>
+                    <div id="correctionContent" class="view-text correction-content" style="display:none; margin-top: 0.5rem; background: rgba(16,185,129,0.07); border-left: 3px solid #10b981;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnPrint" class="btn btn-secondary">Imprimer</button>
+                <button id="btnCopyText" class="btn">Copier le texte</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal (admin only) -->
+    <div id="uploadModal" class="modal-overlay">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h2>📂 Ajouter des archives</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+
+            <div id="uploadStep1" class="modal-body">
+                <div id="dropZone" class="drop-zone">
+                    <div class="drop-zone-icon">🖼️</div>
+                    <p class="drop-zone-text">Glissez vos images ici</p>
+                    <p class="drop-zone-sub">ou cliquez pour sélectionner (plusieurs images possibles)</p>
+                    <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+                </div>
+
+                <!-- Previews + inline forms appear here automatically -->
+                <div id="uploadFormsContainer"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnUploadCancel" class="btn btn-secondary">Annuler</button>
+                <button type="button" id="btnUploadSave" class="btn" disabled>💾 Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Subject Modal (admin only) -->
+    <div id="formModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="formTitle">Modifier un sujet</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="subjectForm">
+                <div class="modal-body">
+                    <input type="hidden" id="formId">
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Filière *</label>
+                            <input type="text" id="formFiliere" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Année universitaire *</label>
+                            <input type="text" id="formAnnee" placeholder="ex: 2025-2026" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Semestre *</label>
+                            <input type="text" id="formSemestre" placeholder="ex: S2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Code matière *</label>
+                            <input type="text" id="formCodeMatiere" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Matière *</label>
+                            <input type="text" id="formMatiere" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Langue</label>
+                            <select id="formLangue">
+                                <option value="fr">Français</option>
+                                <option value="en">Anglais</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Titre *</label>
+                        <input type="text" id="formTitre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="formDescription">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Texte complet</label>
+                        <textarea id="formTexteComplet"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnFormCancel" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" class="btn">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal (admin only) -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>⚙️ Paramètres Admin</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>🔑 Clé API Gemini <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:0.8rem; margin-left: 0.5rem;">(Obtenir une clé gratuite)</a></label>
+                    <input type="password" id="settingsGeminiKey" placeholder="AIzaSy...">
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                        Nécessaire pour l'analyse des figures et la génération de corrections. Stockée localement dans votre navigateur.
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label>🔒 Mot de passe admin (hash URL actuel)</label>
+                    <input type="text" id="settingsAdminPassword" placeholder="ex: MonMotDePasse" readonly style="background: rgba(0,0,0,0.05); cursor: default;">
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                        Votre lien admin est : <code id="settingsAdminUrl" style="word-break: break-all; font-size: 0.8rem;"></code>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSettingsCancel" class="btn btn-secondary">Annuler</button>
+                <button type="button" id="btnSettingsSave" class="btn">💾 Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="js/textes.js?v=7"></script>
+    <script src="js/data.js?v=7"></script>
+    <script src="js/storage.js?v=7"></script>
+    <script src="js/search.js?v=7"></script>
+    <script src="js/app.js?v=7"></script>
+</body>
+</html>
