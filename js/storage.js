@@ -74,14 +74,4 @@ class StorageManager {
         );
     }
 
-    // --- Corrections IA ---
-    static saveCorrection(id, correctionText) {
-        const key = `examarchive_correction_${id}`;
-        localStorage.setItem(key, correctionText);
-    }
-
-    static getCorrection(id) {
-        return localStorage.getItem(`examarchive_correction_${id}`) || null;
-    }
-
 }

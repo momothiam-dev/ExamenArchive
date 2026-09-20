@@ -148,11 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Escape') closeModals();
         });
 
-        // Correction IA
-        const btnGenerate = document.getElementById('btnGenerateCorrection');
-        const btnRegenerate = document.getElementById('btnRegenerateCorrection');
-        if (btnGenerate) btnGenerate.addEventListener('click', () => generateCorrection(currentViewSubjectId));
-        if (btnRegenerate) btnRegenerate.addEventListener('click', () => generateCorrection(currentViewSubjectId, true));
     }
 
     // =============================================
@@ -311,26 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
             analyseSection.style.display = 'none';
         }
 
-        // Section correction IA
-        const correctionContent = document.getElementById('correctionContent');
-        const btnGenerate = document.getElementById('btnGenerateCorrection');
-        const btnRegenerate = document.getElementById('btnRegenerateCorrection');
-        const correctionLoading = document.getElementById('correctionLoading');
-
-        const savedCorrection = StorageManager.getCorrection(id);
-        correctionLoading.style.display = 'none';
-        if (savedCorrection) {
-            correctionContent.innerHTML = markdownToHtml(savedCorrection);
-            correctionContent.style.display = 'block';
-            btnGenerate.style.display = 'none';
-            btnRegenerate.style.display = '';
-        } else {
-            correctionContent.style.display = 'none';
-            correctionContent.innerHTML = '';
-            btnGenerate.style.display = '';
-            btnRegenerate.style.display = 'none';
-        }
-
         elements.viewModal.classList.add('active');
 
         // Copy button
@@ -346,67 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Print button
         const printBtn = document.getElementById('btnPrint');
         printBtn.onclick = () => window.print();
-    }
-
-    // =============================================
-    // CORRECTION IA (Gemini)
-    // =============================================
-    async function generateCorrection(id, forceRegenerate = false) {
-        const subject = allSubjects.find(s => s.id === id);
-        if (!subject) return;
-
-        const correctionContent = document.getElementById('correctionContent');
-        const correctionLoading = document.getElementById('correctionLoading');
-        const btnGenerate = document.getElementById('btnGenerateCorrection');
-        const btnRegenerate = document.getElementById('btnRegenerateCorrection');
-
-        correctionLoading.style.display = 'block';
-        correctionContent.style.display = 'none';
-        btnGenerate.style.display = 'none';
-        btnRegenerate.style.display = 'none';
-
-        const prompt = `Tu es un professeur expert en ${subject.matiere}. 
-Voici le sujet d'examen de "${subject.titre}" (${subject.annee}, ${subject.semestre}) :
-
----
-${subject.texteComplet}
----
-
-Génère une correction type complète et détaillée, question par question. 
-Pour chaque question, donne :
-1. La réponse complète et justifiée
-2. Les points clés à mentionner
-3. Les erreurs fréquentes à éviter
-
-Formate ta réponse en Markdown avec des titres clairs (## Question 1, ## Question 2, etc.).
-Si des calculs ou formules sont nécessaires, explique chaque étape.`;
-
-        try {
-            const response = await fetch('/.netlify/functions/gemini', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt, maxOutputTokens: 4096 })
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || `Erreur HTTP ${response.status}`);
-            const correction = data.text;
-
-            if (!correction) throw new Error('Réponse vide de l\'API Gemini');
-
-            StorageManager.saveCorrection(id, correction);
-            correctionContent.innerHTML = markdownToHtml(correction);
-            correctionContent.style.display = 'block';
-            btnRegenerate.style.display = '';
-            showNotification('✨ Correction générée avec succès !', 'success');
-
-        } catch (err) {
-            console.error('Gemini Correction Error:', err);
-            showNotification(`Erreur Gemini : ${err.message}`, 'error');
-            btnGenerate.style.display = '';
-        } finally {
-            correctionLoading.style.display = 'none';
-        }
     }
 
     // =============================================
