@@ -714,6 +714,118 @@ ii) Écrivez un programme Python pour savoir après combien d'années sa valeur 
 (b) i) Comment Python est-il lié aux SIG ?
 ii) Énumérez quatre (4) types de tâches SIG en Python
 iii) Listez six (6) bibliothèques SIG en Python`
+    },
+    {
+        id: 36,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "S1",
+        codeMatiere: "GIS 611",
+        matiere: "Systèmes d'information géographique",
+        titre: "Examen GIS 611",
+        description: "Document complémentaire de l'archive",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_200641.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 37,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "GEO",
+        matiere: "Géomatique",
+        titre: "Sujet géomatique complémentaire",
+        description: "Scan d'archive non classé",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_200718.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 38,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "SIG",
+        matiere: "Sciences de l'information géographique",
+        titre: "Sujet SIG complémentaire",
+        description: "Scan d'archive non classé",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_201015.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 39,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "PRS",
+        matiere: "Photogrammétrie et télédétection",
+        titre: "Sujet PRS complémentaire",
+        description: "Scan d'archive non classé",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_201106.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 40,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "CAR",
+        matiere: "Cartographie",
+        titre: "Sujet cartographie complémentaire",
+        description: "Scan d'archive non classé",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_201357.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 41,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "SIG",
+        matiere: "Analyse spatiale",
+        titre: "Sujet analyse spatiale complémentaire",
+        description: "Scan d'archive non classé",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_201500.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 42,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "DIVERS",
+        matiere: "Archive complémentaire",
+        titre: "Scan d'archive complémentaire",
+        description: "Image supplémentaire du dossier d'archive",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_201548.heic",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
+    },
+    {
+        id: 43,
+        filiere: "Inconnue",
+        annee: "2025-2026",
+        semestre: "Inconnu",
+        codeMatiere: "DIVERS",
+        matiere: "Archive complémentaire",
+        titre: "Scan d'archive complémentaire",
+        description: "Image supplémentaire du dossier d'archive",
+        langue: "fr",
+        dateAjout: "2026-09-22",
+        image: "sujet/20260922_201908.jpg",
+        texteComplet: `Document complémentaire ajouté à l'archive d'examens.\n\nCe sujet est conservé dans la banque d'images de l'application pour consultation et recherche.`
     }
 ];
 
