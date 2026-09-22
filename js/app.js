@@ -287,13 +287,35 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('viewTexte').textContent = subject.texteComplet;
 
         const viewImage = document.getElementById('viewImage');
-        const imgSrc = subject.imageBase64 || subject.image || '';
+        const previousPager = viewImage.nextElementSibling;
+        if (previousPager && previousPager.dataset.imagePager === 'true') {
+            previousPager.remove();
+        }
+        const imageSources = subject.images || [subject.imageBase64 || subject.image].filter(Boolean);
+        const imgSrc = imageSources[0] || '';
         if (imgSrc) {
             viewImage.src = imgSrc;
             viewImage.style.display = 'block';
+            viewImage.alt = `${subject.titre} - page 1`;
         } else {
             viewImage.style.display = 'none';
             viewImage.src = '';
+        }
+        const imageCount = imageSources.length;
+        if (imageCount > 1) {
+            let pageIndex = 0;
+            const nextImage = document.createElement('button');
+            nextImage.type = 'button';
+            nextImage.className = 'btn btn-secondary';
+            nextImage.dataset.imagePager = 'true';
+            nextImage.textContent = `Page suivante (1/${imageCount})`;
+            nextImage.addEventListener('click', () => {
+                pageIndex = (pageIndex + 1) % imageCount;
+                viewImage.src = imageSources[pageIndex];
+                viewImage.alt = `${subject.titre} - page ${pageIndex + 1}`;
+                nextImage.textContent = `Page suivante (${pageIndex + 1}/${imageCount})`;
+            });
+            viewImage.insertAdjacentElement('afterend', nextImage);
         }
 
         // Section analyse IA des figures

@@ -10,7 +10,7 @@ const INITIAL_SUBJECTS = [
         description: "Third Semester Examination",
         langue: "en",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.48.59.jpeg",
+        image: "sujet/20260922_201611.jpg",
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 OBAFEMI AWOLOWO UNIVERSITY CAMPUS ILE-IFE, NIGERIA
 Department of Photogrammetry & Remote Sensing
@@ -60,7 +60,7 @@ Band 3: 851, 851, 851 ...
         description: "Plurals, possessive pronouns, question construction",
         langue: "en",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.00 (1).jpeg",
+        image: "sujet/20260922_201727.jpg",
         texteComplet: `3. Give the plural form of these words
 (a) Hero (b) loaf (c) half (d) watch ...
 
@@ -85,7 +85,8 @@ Band 3: 851, 851, 851 ...
         description: "First Semester Examination",
         langue: "en",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.00.jpeg",
+        image: "sujet/20260922_201627.jpg",
+        images: ["sujet/20260922_201627.jpg", "sujet/20260922_201643.jpg", "sujet/20260922_201700.jpg"],
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 OBAFEMI AWOLOWO UNIVERSITY CAMPUS, ILE-IFE, NIGERIA
 
@@ -121,7 +122,7 @@ Instruction: Answer all questions.
         description: "Examen du Premier Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.01 (1).jpeg",
+        image: "sujet/20260922_201712.jpg",
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GÉOSPATIALE
 CAMPUS DE L'UNIVERSITÉ OBAFEMI AWOLOWO, NIGERIA
 Département de Photogrammétrie et de Télédétection
@@ -160,7 +161,7 @@ b) Quelle est la pertinence des données enregistrées par le système de contr�
         description: "Reading comprehension on environmental challenges",
         langue: "en",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.01.jpeg",
+        image: "sujet/20260922_201700.jpg",
         texteComplet: `7. Read the text and answer the questions that follow
 Gully erosion has been a form of environmental challenge that is faced and has caused issues such as shrinking land resources and reducing environmental quality. This has a direct or indirect impact on many communities, resulting to lower agricultural output, increased floods, and habitat loss...
 
@@ -182,7 +183,7 @@ Gully erosion has been a form of environmental challenge that is faced and has c
         description: "Examen du deuxième semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.03 (1).jpeg",
+        image: "sujet/20260922_201826.jpg",
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GÉOSPATIALE (AFRIGIST)
 CAMPUS UNIVERSITAIRE OBAFEMI AWOLOWO, ILE-IFE, NIGERIA
 Département des sciences de l'information géographique
@@ -230,7 +231,7 @@ b) Décrivez les principales sources de données géospatiales. En quoi leur pr�
         description: "Examen du Deuxième Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.03.jpeg",
+        image: "sujet/20260922_201806.jpg",
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GÉOSPATIALE (AFRIGIST), ILE-IFE, NIGERIA
 DEPARTEMENT DE CARTOGRAPHIE
 
@@ -274,7 +275,7 @@ iii) IDRISI`
         description: "Examen du Deuxième Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.04.jpeg",
+        image: "sujet/20260922_200821.jpg",
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GÉOSPATIALE (AFRIGIST)
 Département de Photogrammétrie et de Télédétection
 
@@ -315,7 +316,7 @@ b) Expliquez le rôle de la Géodésie dans l'analyse des réseaux directionnels
         description: "Section B",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.06.jpeg",
+        image: "sujet/20260922_201844.jpg",
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 Département des Sciences de l'Information Géographique
 
@@ -342,7 +343,7 @@ viii. Créez une spatiocarte montrant les agglomérations... sur une composition
         description: "Examen du Second Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.07.jpeg",
+        image: "sujet/20260922_200758.jpg",
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 OBAFEMI AWOLOWO UNIVERSITY CAMPUS, ILE-IFE, NIGERIA
 Département des Sciences de l'Information Géographique
@@ -384,7 +385,7 @@ SECTION A : Répondre à DEUX (2) questions
         description: "Examen du Second Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.08.jpeg",
+        image: "sujet/20260922_200856.jpg",
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 OBAFEMI AWOLOWO UNIVERSITY CAMPUS, ILE-IFE, NIGERIA
 Département des Sciences de l'Information Géographique
@@ -433,7 +434,7 @@ b) Décrire les avantages et les utilisations d'une Work Breakdown Structure (WB
         description: "Examen du Deuxième Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.09 (1).jpeg",
+        image: "sujet/20260922_200923.jpg",
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GEOSPATIALE (AFRIGIST), ILE-IFE, NIGERIA
 DEPARTEMENT DE CARTOGRAPHIE
 
@@ -479,7 +480,7 @@ b. Décrire les limites des échelles graphiques et textuelles sur une carte th�
         description: "Examen du Second Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.09.jpeg",
+        image: "sujet/20260922_200942.jpg",
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 OBAFEMI AWOLOWO UNIVERSITY CAMPUS, ILE-IFE, NIGERIA
 Department of Photogrammetry and Remote Sensing
@@ -526,7 +527,8 @@ Instruction: Répondre à trois (3) questions
         description: "Examen du premier Semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.10.jpeg",
+        image: "sujet/20260922_201740.jpg",
+        images: ["sujet/20260922_201740.jpg", "sujet/20260922_201753.jpg"],
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GEOSPATIALE (AFRIGIST)
 Campus Universitaire Obafemi Awolowo, Ile-Ife, Nigeria
 Département de Cartographie
@@ -553,7 +555,7 @@ Légende : 80-85, 75-80, 70-75, 65-70, 60-65, 55-60, 50-55, No data`
         description: "Examen du premier semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.11 (1).jpeg",
+        image: "sujet/20260922_200958.jpg",
         texteComplet: `INSTITUT REGIONAL AFRICAIN DES SCIENCES ET TECHNOLOGIES DE L'INFORMATION GEOSPATIALE (AFRIGIST)
 CAMPUS UNIVERSITAIRE OBAFEMI AWOLOWO, ILE-IFE, NIGERIA
 Département de la Science de l'Information Géographique (SIG)
@@ -601,7 +603,7 @@ b) Expliquer l'importance des contraintes d'intégrité dans les bases de donné
         description: "Page de suite d'un examen de cartographie",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.11.jpeg",
+        image: "sujet/20260922_201520.jpg",
         texteComplet: `a. Identifier le fondement administratif du phénomène visualisé.
 b. Enumérer les principaux problèmes de la carte donnée.
 c. Commenter la mise en page adoptée.
@@ -632,7 +634,7 @@ c. A l'aide d'exemples pertinents, présentez les différents niveaux de mesure 
         description: "Page 2 de l'examen de programmation Python",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.12 (1).jpeg",
+        image: "sujet/20260922_201520.jpg",
         texteComplet: `3(a) Écrivez le programme Python qui affiche la table de multiplication de 1 à 12 d'un nombre donné, n
 (b) Qu'est-ce qu'une variable en programmation
 (c) Différencier une liste d'un tuple avec un exemple dans chaque cas
@@ -676,7 +678,7 @@ for i in range(1, 51):
         description: "Examen du premier semestre",
         langue: "fr",
         dateAjout: "2026-09-16",
-        image: "sujet/WhatsApp Image 2026-09-16 at 16.49.12.jpeg",
+        image: "sujet/20260922_201520.jpg",
         texteComplet: `AFRICAN REGIONAL INSTITUTE FOR GEOSPATIAL INFORMATION SCIENCE AND TECHNOLOGY (AFRIGIST)
 OBAFEMI AWOLOWO UNIVERSITY CAMPUS, ILE-IFE, NIGERIA
 Department of Photogrammetry and Remote Sensing
@@ -715,7 +717,9 @@ iii) Listez six (6) bibliothèques SIG en Python`
     }
 ];
 
-// Merge textes into subjects for easier handling initially (simulating what storage will do)
+// Keep the detailed OCR already stored in each subject when no replacement exists.
 INITIAL_SUBJECTS.forEach(subject => {
-    subject.texteComplet = INITIAL_TEXTS[subject.id] || "Texte non disponible.";
+    if (!subject.texteComplet) {
+        subject.texteComplet = INITIAL_TEXTS[subject.id] || "Texte non disponible.";
+    }
 });
