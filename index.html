@@ -3,238 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExamArchive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="description" content="ExamArchive — Archivez, recherchez et révisez vos sujets d'examen universitaire.">
+    <title>ExamArchive — Archive de sujets d'examen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <a href="#" class="logo">EXAMARCHIVE</a>
-        <nav>
-            <a href="#" id="navArchives">Archives</a>
-            <!-- Badge admin, caché par défaut -->
-            <span id="adminBadge" class="admin-badge" style="display:none;">🔑 Mode Admin</span>
-            <!-- Bouton Paramètres, visible seulement en mode admin -->
-            <button id="btnSettings" class="btn btn-secondary admin-only" style="display:none;" title="Paramètres Gemini API">⚙️</button>
-            <!-- Bouton Ajouter, visible seulement en mode admin -->
-            <button id="btnAddSubject" class="btn admin-only" style="display:none;">+ Ajouter une archive</button>
-        </nav>
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="#" class="brand" aria-label="Accueil ExamArchive">
+                <span class="brand-mark">EA</span>
+                <span>EXAMARCHIVE</span>
+            </a>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#" class="active">Archives</a>
+                <span id="adminBadge" class="admin-badge" style="display:none;">🔑 Mode Admin</span>
+                <button id="btnSettings" class="btn-admin btn-secondary admin-only" style="display:none;" title="Paramètres">⚙️ Paramètres</button>
+                <button id="btnAddSubject" class="btn-admin admin-only" style="display:none;">+ Ajouter une archive</button>
+            </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème clair/sombre" title="Thème">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" id="themeIconSun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" id="themeIconMoon" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"></path></svg>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <div class="hero">
-        <h1>ARCHIVEZ. RECHERCHEZ. RÉVISEZ.</h1>
-        <p>Tous vos anciens sujets d'examen, organisés en un seul endroit.</p>
-    </div>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-eyebrow">Archive universitaire &bull; Géomatique, SIG, Télédétection</div>
+                <h1>Archivez. Recherchez. Révisez.</h1>
+                <p>Tous vos anciens sujets d'examen, organisés en un seul endroit. Consultez les annales, filtrez par matière et année, et préparez vos révisions efficacement.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary" id="btnBrowse">Voir les archives</a>
+                    <a href="#" class="btn btn-outline" id="btnHeroSearch">Rechercher</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <section class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="totalSujets">0</div>
-                <div class="stat-label">Sujets</div>
+    <!-- ===================== STATISTIQUES ===================== -->
+    <section class="stats" aria-label="Statistiques de l'archive">
+        <div class="stat-card">
+            <div class="stat-value" id="totalSujets">0</div>
+            <div class="stat-label">Sujets</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalMatieres">0</div>
+            <div class="stat-label">Matières</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalAnnees">0</div>
+            <div class="stat-label">Années</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalSemestres">0</div>
+            <div class="stat-label">Semestres</div>
+        </div>
+    </section>
+
+    <!-- ===================== CONTROLES ===================== -->
+    <main class="container" id="mainContent">
+        <section class="controls" aria-label="Recherche et filtres">
+            <div class="search-wrap">
+                <span class="search-icon" aria-hidden="true">🔍</span>
+                <input type="search" id="searchInput" class="search-bar" placeholder="Rechercher un sujet (titre, matière, code, contenu...)">
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalMatieres">0</div>
-                <div class="stat-label">Matières</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalAnnees">0</div>
-                <div class="stat-label">Années</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalSemestres">0</div>
-                <div class="stat-label">Semestres</div>
+
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label" for="filiereFilter">Filière</label>
+                    <select id="filiereFilter"><option value="">Toutes</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="anneeFilter">Année</label>
+                    <select id="anneeFilter"><option value="">Toutes</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="semestreFilter">Semestre</label>
+                    <select id="semestreFilter"><option value="">Tous</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="matiereFilter">Matière</label>
+                    <select id="matiereFilter"><option value="">Toutes</option></select>
+                </div>
+                <div class="filter-group sort-wrap">
+                    <label class="filter-label" for="sortSelect">Tri</label>
+                    <select id="sortSelect">
+                        <option value="default">Défaut</option>
+                        <option value="annee-desc">Année décroissante</option>
+                        <option value="matiere-asc">Matière A→Z</option>
+                        <option value="matiere-desc">Matière Z→A</option>
+                        <option value="date-desc">Ajout récent</option>
+                        <option value="date-asc">Ajout ancien</option>
+                    </select>
+                </div>
+                <button id="btnResetFilters" class="reset-filters" style="display:none;">Réinitialiser les filtres</button>
             </div>
         </section>
 
-        <section class="controls">
-            <input type="text" id="searchInput" class="search-bar" placeholder="🔎 Rechercher un sujet (titre, matière, contenu)...">
-            
-            <div class="filters">
-                <select id="filiereFilter">
-                    <option value="">Filière</option>
-                </select>
-                <select id="anneeFilter">
-                    <option value="">Année</option>
-                </select>
-                <select id="semestreFilter">
-                    <option value="">Semestre</option>
-                </select>
-                <select id="matiereFilter">
-                    <option value="">Matière</option>
-                </select>
-                <select id="sortSelect" style="margin-left: auto;">
-                    <option value="default">Tri par défaut</option>
-                    <option value="annee-desc">Année décroissante</option>
-                    <option value="matiere-asc">Matière A-Z</option>
-                    <option value="matiere-desc">Matière Z-A</option>
-                    <option value="date-desc">Ajout récent</option>
-                    <option value="date-asc">Ajout ancien</option>
-                </select>
-            </div>
+        <!-- ===================== GRILLE ===================== -->
+        <section id="subjectsGrid" class="subjects-grid" role="listbox" aria-label="Liste des sujets d'examen">
+            <!-- Les cartes de sujets sont injectées ici -->
         </section>
 
-        <section id="subjectsGrid" class="subjects-grid">
-            <!-- Subject cards will be rendered here -->
-        </section>
+        <!-- État vide -->
+        <div id="emptyState" class="empty-state hidden">
+            <div class="empty-icon">📭</div>
+            <h2>Aucun sujet trouvé</h2>
+            <p>Aucune archive ne correspond à vos critères de recherche et filtres.</p>
+            <button class="btn btn-outline" id="btnResetEmpty">Réinitialiser les filtres</button>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination" id="pagination" aria-label="Pagination">
+            <!-- injecté par JS -->
+        </nav>
     </main>
 
-    <!-- View Subject Modal -->
-    <div id="viewModal" class="modal-overlay">
+    <!-- ===================== MODALE : DÉTAIL SUJET ===================== -->
+    <div id="viewModal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="viewModalTitle">
         <div class="modal modal-large">
             <div class="modal-header">
-                <h2 id="viewTitle">Titre du sujet</h2>
-                <button class="close-btn">&times;</button>
+                <h2 id="viewModalTitle">Sujet d'examen</h2>
+                <button class="modal-close" id="btnCloseView" aria-label="Fermer">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="view-meta">
-                    <div><strong>Code :</strong> <span id="viewCode"></span></div>
-                    <div><strong>Matière :</strong> <span id="viewMatiere"></span></div>
-                    <div><strong>Filière :</strong> <span id="viewFiliere"></span></div>
-                    <div><strong>Année :</strong> <span id="viewAnnee"></span></div>
-                    <div><strong>Semestre :</strong> <span id="viewSemestre"></span></div>
+                <div class="view-meta-grid">
+                    <div class="meta-item"><span class="meta-label">Code</span><span class="meta-value" id="viewCode"></span></div>
+                    <div class="meta-item"><span class="meta-label">Matière</span><span class="meta-value" id="viewMatiere"></span></div>
+                    <div class="meta-item"><span class="meta-label">Filière</span><span class="meta-value" id="viewFiliere"></span></div>
+                    <div class="meta-item"><span class="meta-label">Année</span><span class="meta-value" id="viewAnnee"></span></div>
+                    <div class="meta-item"><span class="meta-label">Semestre</span><span class="meta-value" id="viewSemestre"></span></div>
+                    <div class="meta-item"><span class="meta-label">Langue</span><span class="meta-value" id="viewLangue"></span></div>
                 </div>
 
-                <!-- Image du sujet -->
-                <img id="viewImage" src="" alt="Sujet" style="max-width: 100%; height: auto; display: none; margin-top: 1rem; border: 1px solid #ddd; border-radius: 4px;">
+                <div class="view-image-wrap" id="viewImageWrap" style="display:none;">
+                    <img id="viewImage" src="" alt="Aperçu du sujet">
+                    <button class="image-carousel-btn" id="btnNextImage" style="display:none;">Page suivante</button>
+                </div>
 
-                <!-- Texte extrait -->
                 <div id="viewTexte" class="view-text"></div>
 
-                <!-- Section Analyse IA des figures/cartes -->
-                <div id="viewAnalyseSection" style="display:none; margin-top: 1.5rem;">
-                    <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.5rem;">🗺️ Schémas & Figures analysés par IA</h3>
-                    <div id="viewAnalyse" class="view-text" style="background: rgba(99,102,241,0.07); border-left: 3px solid var(--primary);"></div>
+                <div id="viewAnalyseSection" class="analyse-section" style="display:none;">
+                    <h3>🗺️ Schémas &amp; Figures analysés par IA</h3>
+                    <div id="viewAnalyse" class="analyse-content"></div>
                 </div>
 
-            </div>
-            <div class="modal-footer">
-                <button id="btnPrint" class="btn btn-secondary">Imprimer</button>
-                <button id="btnCopyText" class="btn">Copier le texte</button>
+                <div class="view-actions" id="viewActions">
+                    <button class="btn btn-primary btn-sm" id="btnCopyText">📋 Copier le texte</button>
+                    <button class="btn btn-outline btn-sm" id="btnPrint">🖨️ Imprimer</button>
+                    <div id="viewAdminActions" style="display:none;">
+                        <button class="btn btn-outline btn-sm btn-edit-card" id="btnEditView" title="Modifier">✏️ Modifier</button>
+                        <button class="btn btn-outline btn-sm btn-delete-card" id="btnDeleteView" title="Supprimer">🗑️</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Upload Modal (admin only) -->
-    <div id="uploadModal" class="modal-overlay">
+    <!-- ===================== MODALE : AJOUT (ADMIN) ===================== -->
+    <div id="uploadModal" class="modal-overlay modal-large-width" aria-modal="true" role="dialog" aria-labelledby="uploadModalTitle">
         <div class="modal modal-large">
             <div class="modal-header">
-                <h2>📂 Ajouter des archives</h2>
-                <button class="close-btn">&times;</button>
+                <h2 id="uploadModalTitle">📂 Ajouter des archives</h2>
+                <button class="modal-close" id="btnUploadClose" aria-label="Fermer">&times;</button>
             </div>
+            <div class="modal-body">
+                <div id="uploadStep1">
+                    <div id="dropZone" class="drop-zone" role="button" tabindex="0" aria-label="Déposez vos images ici">
+                        <span class="drop-zone-icon">🖼️</span>
+                        <p class="drop-zone-text">Glissez vos images ici</p>
+                        <p class="drop-zone-sub">ou cliquez pour sélectionner (plusieurs images possibles)</p>
+                        <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+                    </div>
 
-            <div id="uploadStep1" class="modal-body">
-                <div id="dropZone" class="drop-zone">
-                    <div class="drop-zone-icon">🖼️</div>
-                    <p class="drop-zone-text">Glissez vos images ici</p>
-                    <p class="drop-zone-sub">ou cliquez pour sélectionner (plusieurs images possibles)</p>
-                    <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+                    <div id="uploadFormsContainer"></div>
                 </div>
-
-                <!-- Previews + inline forms appear here automatically -->
-                <div id="uploadFormsContainer"></div>
             </div>
-
             <div class="modal-footer">
-                <button type="button" id="btnUploadCancel" class="btn btn-secondary">Annuler</button>
-                <button type="button" id="btnUploadSave" class="btn" disabled>💾 Enregistrer</button>
+                <button type="button" id="btnUploadCancel" class="btn btn-outline">Annuler</button>
+                <button type="button" id="btnUploadSave" class="btn btn-primary" disabled>💾 Enregistrer</button>
             </div>
         </div>
     </div>
 
-    <!-- Edit Subject Modal (admin only) -->
-    <div id="formModal" class="modal-overlay">
+    <!-- ===================== MODALE : MODIFIER (ADMIN) ===================== -->
+    <div id="formModal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="formModalTitle">
         <div class="modal">
             <div class="modal-header">
-                <h2 id="formTitle">Modifier un sujet</h2>
-                <button class="close-btn">&times;</button>
+                <h2 id="formModalTitle">Modifier un sujet</h2>
+                <button class="modal-close" id="btnFormClose" aria-label="Fermer">&times;</button>
             </div>
             <form id="subjectForm">
                 <div class="modal-body">
                     <input type="hidden" id="formId">
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+                    <div class="form-grid">
                         <div class="form-group">
-                            <label>Filière *</label>
-                            <input type="text" id="formFiliere" required>
+                            <label class="form-label" for="formFiliere">Filière *</label>
+                            <input type="text" id="formFiliere" class="form-control" required placeholder="ex: PM/DESS">
                         </div>
                         <div class="form-group">
-                            <label>Année universitaire *</label>
-                            <input type="text" id="formAnnee" placeholder="ex: 2025-2026" required>
+                            <label class="form-label" for="formAnnee">Année universitaire *</label>
+                            <input type="text" id="formAnnee" class="form-control" required placeholder="ex: 2025-2026">
                         </div>
                         <div class="form-group">
-                            <label>Semestre *</label>
-                            <input type="text" id="formSemestre" placeholder="ex: S2" required>
+                            <label class="form-label" for="formSemestre">Semestre *</label>
+                            <input type="text" id="formSemestre" class="form-control" required placeholder="ex: S2">
                         </div>
                         <div class="form-group">
-                            <label>Code matière *</label>
-                            <input type="text" id="formCodeMatiere" required>
+                            <label class="form-label" for="formCodeMatiere">Code matière *</label>
+                            <input type="text" id="formCodeMatiere" class="form-control" required placeholder="ex: GIS 621">
                         </div>
                         <div class="form-group">
-                            <label>Matière *</label>
-                            <input type="text" id="formMatiere" required>
+                            <label class="form-label" for="formMatiere">Matière *</label>
+                            <input type="text" id="formMatiere" class="form-control" required placeholder="ex: Analyse Spatiale">
                         </div>
                         <div class="form-group">
-                            <label>Langue</label>
-                            <select id="formLangue">
+                            <label class="form-label" for="formLangue">Langue</label>
+                            <select id="formLangue" class="form-control">
                                 <option value="fr">Français</option>
                                 <option value="en">Anglais</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Titre *</label>
-                        <input type="text" id="formTitre" required>
+
+                    <div class="form-group form-full">
+                        <label class="form-label" for="formTitre">Titre *</label>
+                        <input type="text" id="formTitre" class="form-control" required>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Description</label>
-                        <input type="text" id="formDescription">
+
+                    <div class="form-group form-full">
+                        <label class="form-label" for="formDescription">Description</label>
+                        <input type="text" id="formDescription" class="form-control" placeholder="optionnel">
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Texte complet</label>
-                        <textarea id="formTexteComplet"></textarea>
+
+                    <div class="form-group form-full">
+                        <label class="form-label" for="formTexteComplet">Texte complet</label>
+                        <textarea id="formTexteComplet" class="form-control" rows="6" placeholder="Contenu OCR du sujet..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnFormCancel" class="btn btn-secondary">Annuler</button>
-                    <button type="submit" class="btn">Enregistrer</button>
+                    <button type="button" id="btnFormCancel" class="btn btn-outline">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Settings Modal (admin only) -->
-    <div id="settingsModal" class="modal-overlay">
-        <div class="modal" style="max-width: 500px;">
+    <!-- ===================== MODALE : PARAMÈTRES (ADMIN) ===================== -->
+    <div id="settingsModal" class="modal-overlay" aria-modal="true" role="dialog" aria-labelledby="settingsModalTitle">
+        <div class="modal" style="max-width: 520px;">
             <div class="modal-header">
-                <h2>⚙️ Paramètres Admin</h2>
-                <button class="close-btn">&times;</button>
+                <h2 id="settingsModalTitle">⚙️ Paramètres Admin</h2>
+                <button class="modal-close" id="btnSettingsClose" aria-label="Fermer">&times;</button>
             </div>
             <div class="modal-body">
                 <p>Les services IA sont configurés côté serveur. Les clés API ne sont jamais affichées ni enregistrées dans ce navigateur.</p>
                 <div class="form-group">
-                    <label>🔒 Mot de passe admin (hash URL actuel)</label>
-                    <input type="text" id="settingsAdminPassword" placeholder="ex: MonMotDePasse" readonly style="background: rgba(0,0,0,0.05); cursor: default;">
-                    <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">
-                        Votre lien admin est : <code id="settingsAdminUrl" style="word-break: break-all; font-size: 0.8rem;"></code>
+                    <label class="form-label" for="settingsAdminPassword">🔒 Mot de passe admin (hash URL actuel)</label>
+                    <input type="text" id="settingsAdminPassword" class="form-control" placeholder="ex: MonMotDePasse" readonly style="background: rgba(0,0,0,0.05); cursor: default;">
+                    <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.3rem;">
+                        Votre lien admin est : <code id="settingsAdminUrl" style="word-break: break-all; font-size: 0.8rem; color: var(--color-primary);"></code>
                     </p>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnSettingsCancel" class="btn btn-secondary">Annuler</button>
-                <button type="button" id="btnSettingsSave" class="btn">Fermer</button>
+                <button type="button" id="btnSettingsCancel" class="btn btn-outline">Annuler</button>
+                <button type="button" id="btnSettingsSave" class="btn btn-primary">Fermer</button>
             </div>
         </div>
     </div>
 
-    <div id="notification" class="notification"></div>
+    <!-- ===================== TOAST ===================== -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <script src="js/textes.js?v=7"></script>
-    <script src="js/data.js?v=7"></script>
-    <script src="js/storage.js?v=7"></script>
-    <script src="js/search.js?v=7"></script>
-    <script src="js/app.js?v=7"></script>
+    <script src="js/storage.js?v=8"></script>
+    <script src="js/search.js?v=8"></script>
+    <script src="js/app.js?v=8"></script>
 </body>
 </html>
