@@ -474,13 +474,46 @@ Formate ta réponse en Markdown avec des listes à puces claires.`;
             reader.readAsDataURL(file);
         }));
 
-        Promise.all(readers).then(results => {
-            results.forEach(r => {
-                if (!uploadedFiles.find(f => f.file.name === r.file.name)) {
+        Promise.all(readers).then(async (results) => {
+            results.forEach((r) => {
+                if (!uploadedFiles.find((f) => f.file.name === r.file.name)) {
                     uploadedFiles.push(r);
                 }
             });
+            // Pré-calculer une version redimensionnée pour l'OCR afin d'éviter
+            // le rejet par OCR.space sur les gros scans (limite ~1 Mo en gratuit).
+            for (const item of uploadedFiles) {
+                if (!item.dataUrlOcr) {
+                    try {
+                        item.dataUrlOcr = await resizeDataUrl(item.dataUrl, 1600, 0.85);
+                    } catch (e) {
+                        item.dataUrlOcr = item.dataUrl;
+                    }
+                }
+            }
             renderInlineForms();
+        });
+    }
+
+    // Redimensionne une data URL via canvas pour réduire son poids avant l'envoi OCR.
+    function resizeDataUrl(dataUrl, maxWidth = 1600, quality = 0.85) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+                let width = img.width;
+                let height = img.height;
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+            };
+            img.src = dataUrl;
         });
     }
 
@@ -561,7 +594,7 @@ Formate ta réponse en Markdown avec des listes à puces claires.`;
                 fetch('/.netlify/functions/ocr', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ dataUrl: item.dataUrl })
+                    body: JSON.stringify({ dataUrl: item.dataUrlOcr || item.dataUrl })
                 })
                     .then(r => r.json())
                     .then(result => {
